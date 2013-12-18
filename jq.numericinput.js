@@ -8,14 +8,15 @@
 			config: {
 				maximum : false,
 				minimum : false,
-				prependZero : true,
+				prependZero : false,
 				addValue : '&#9650;',
 				subtractValue : '&#9660;',
 				defaultValue : 0,
-				afterAdd : function(){
+				cyclic : false,
+				afterAdd : function(err){
 
 				},
-				afterSubtract : function(){
+				afterSubtract : function(err){
 
 				}
 			},
@@ -64,11 +65,7 @@
 					var result = parseInt(self.val()) - amount;
 				}
 
-				if(this.config.prependZero){
-					returnResult = result < 10 ? '0' + result : result;
-				} else {
-					returnResult = result;
-				}
+				returnResult = this.prependZero(result);
 
 				switch(operation){
 					case 'add':
@@ -76,7 +73,11 @@
 							if(this.config.maximum >= result){
 								self.val(returnResult);
 							} else {
-								return false;
+								if(this.config.cyclic){
+									self.val(this.prependZero(this.config.minimum));
+								} else {
+									cb('Hit Maximum Limit');
+								}
 							}
 						} else {
 							self.val(returnResult)
@@ -87,7 +88,11 @@
 							if(this.config.minimum <= result){
 								self.val(returnResult);
 							} else {
-								return false;
+								if(this.config.cyclic){
+									self.val(this.prependZero(this.config.maximum));
+								} else {
+									cb('Hit Minimum Limit');
+								}
 							}
 						} else {
 							self.val(returnResult)
@@ -95,8 +100,15 @@
 					break;
 				}
 
-				cb();
+				cb(null);
 
+			},
+			prependZero : function(value){
+				if(this.config.prependZero){
+					return value < 10 ? '0' + value : value;
+				} else {
+					return value;
+				}
 			}
 		};
 
