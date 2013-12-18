@@ -4,7 +4,7 @@ NumericInput
 Extensible and style-able numeric input
 
 ### Usage ###
-
+```
 $(elem).numericInput({
 	minimum : [minimum value to allow],
 	maximum : [maximum value to allow],
@@ -15,3 +15,4 @@ $(elem).numericInput({
 	afterAdd : [callback function after add],
 	afterSubtract : [callback function after subtract]
 });
+```
