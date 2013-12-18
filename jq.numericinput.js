@@ -6,7 +6,7 @@
 
 		var api = {
 			config: {
-				max : false,
+				maximum : false,
 				minimum : false,
 				prependZero : true,
 				addValue : '&#9650;',
@@ -72,8 +72,8 @@
 
 				switch(operation){
 					case 'add':
-						if(this.config.max){
-							if(this.config.max >= result){
+						if(this.config.maximum){
+							if(this.config.maximum >= result){
 								self.val(returnResult);
 							} else {
 								return false;
